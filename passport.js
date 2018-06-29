@@ -2,7 +2,9 @@ const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const { ExtractJwt } = require('passport-jwt');
 const User = require('./models/user');
+const LocalStrategy = require('passport-local').Strategy;
 
+// jwt strategy
 passport.use(new JwtStrategy({
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
   secretOrKey: 'iamsam'
@@ -21,4 +23,24 @@ passport.use(new JwtStrategy({
   } catch (error) {
     done(error, false);
   }
+}));
+
+//local strategy
+
+passport.use(new LocalStrategy({
+  usernameField: 'email'
+}, async (email, password, done) =>{
+  //find user given email
+  const user = await User.findOne({email});
+
+  //  if not handle
+  if(!user) {
+    return done(unll, false);
+  }
+
+  // check if pswd is correct
+ 
+  //ifnot
+
+  //return user
 }));
